@@ -1,2 +1,2 @@
 # Newsletter-Website
-created a newsletter website which fetches news articles on different topics. 
+Newsletter website fetching articles on various topics using JavaScript, HTML, and CSS. 
