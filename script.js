@@ -8,31 +8,9 @@ function reload() {
 }
 
 async function fetchNews(query) {
-    try {
-        console.log("Fetching news for:", query);
-        console.log("Full URL:", `${url}${query}&token=${API_KEY}&lang=en`);
-        
-        const res = await fetch(`${url}${query}&token=${API_KEY}&lang=en`);
-        console.log("Response status:", res.status);
-        
-        const data = await res.json();
-        console.log("API Response:", data);
-        
-        if (data.errors) {
-            console.error("API Errors:", data.errors);
-            return;
-        }
-        
-        if (!data.articles || data.articles.length === 0) {
-            console.log("No articles found");
-            return;
-        }
-        
-        console.log("Number of articles:", data.articles.length);
-        bindData(data.articles);
-    } catch (error) {
-        console.error("Fetch error:", error);
-    }
+    const res = await fetch(`${url}${query}&token=${API_KEY}&lang=en`);
+    const data = await res.json();
+    bindData(data.articles);
 }
 
 function bindData(articles) {
@@ -41,23 +19,12 @@ function bindData(articles) {
 
     cardsContainer.innerHTML = "";
 
-    console.log("Processing articles:", articles);
-
-    articles.forEach((article, index) => {
-        console.log(`Article ${index}:`, article);
-        
-        // GNews API uses 'image' instead of 'urlToImage'
-        if (!article.image) {
-            console.log(`Article ${index} skipped: no image`);
-            return;
-        }
-        
+    articles.forEach((article) => {
+        if (!article.image) return;
         const cardClone = newsCardTemplate.content.cloneNode(true);
         fillDataInCard(cardClone, article);
         cardsContainer.appendChild(cardClone);
     });
-    
-    console.log("Cards added to container");
 }
 
 function fillDataInCard(cardClone, article) {
