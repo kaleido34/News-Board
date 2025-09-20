@@ -41,12 +41,23 @@ function bindData(articles) {
 
     cardsContainer.innerHTML = "";
 
-    articles.forEach((article) => {
-        if (!article.urlToImage) return;
+    console.log("Processing articles:", articles);
+
+    articles.forEach((article, index) => {
+        console.log(`Article ${index}:`, article);
+        
+        // GNews API uses 'image' instead of 'urlToImage'
+        if (!article.image) {
+            console.log(`Article ${index} skipped: no image`);
+            return;
+        }
+        
         const cardClone = newsCardTemplate.content.cloneNode(true);
         fillDataInCard(cardClone, article);
         cardsContainer.appendChild(cardClone);
     });
+    
+    console.log("Cards added to container");
 }
 
 function fillDataInCard(cardClone, article) {
@@ -55,7 +66,8 @@ function fillDataInCard(cardClone, article) {
     const newsSource = cardClone.querySelector("#news-source");
     const newsDesc = cardClone.querySelector("#news-desc");
 
-    newsImg.src = article.urlToImage;
+    // GNews API property mapping:
+    newsImg.src = article.image; // was article.urlToImage
     newsTitle.innerHTML = article.title;
     newsDesc.innerHTML = article.description;
 
