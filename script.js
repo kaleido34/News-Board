@@ -8,9 +8,31 @@ function reload() {
 }
 
 async function fetchNews(query) {
-    const res = await fetch(`${url}${query}&token=${API_KEY}&lang=en`);
-    const data = await res.json();
-    bindData(data.articles);
+    try {
+        console.log("Fetching news for:", query);
+        console.log("Full URL:", `${url}${query}&token=${API_KEY}&lang=en`);
+        
+        const res = await fetch(`${url}${query}&token=${API_KEY}&lang=en`);
+        console.log("Response status:", res.status);
+        
+        const data = await res.json();
+        console.log("API Response:", data);
+        
+        if (data.errors) {
+            console.error("API Errors:", data.errors);
+            return;
+        }
+        
+        if (!data.articles || data.articles.length === 0) {
+            console.log("No articles found");
+            return;
+        }
+        
+        console.log("Number of articles:", data.articles.length);
+        bindData(data.articles);
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
 }
 
 function bindData(articles) {
