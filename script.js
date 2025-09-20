@@ -1,5 +1,5 @@
 const API_KEY = config.API_KEY;
-const url = "https://newsapi.org/v2/everything?q=";
+const url = "https://gnews.io/api/v4/search?q=";
 
 window.addEventListener("load", () => fetchNews("India"));
 
@@ -8,7 +8,7 @@ function reload() {
 }
 
 async function fetchNews(query) {
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+    const res = await fetch(`${url}${query}&token=${API_KEY}&lang=en`);
     const data = await res.json();
     bindData(data.articles);
 }
