@@ -1,5 +1,6 @@
 const API_KEY = config.API_KEY;
 const url = "https://gnews.io/api/v4/search?q=";
+const max = "&max=16";
 
 window.addEventListener("load", () => fetchNews("India"));
 
